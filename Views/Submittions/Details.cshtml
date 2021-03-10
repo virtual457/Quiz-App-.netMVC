@@ -1,0 +1,50 @@
+﻿@model QuizApp.Models.Submittion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Submittion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmittedAnswer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmittedAnswer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Result)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Result)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmittedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmittedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmittedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmittedOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

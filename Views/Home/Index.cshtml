@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>QuiZ App</h1>
+    <p class="lead">Quiz App is a free web framework for building great Web tests.To learn to asnwer to question lean from the below link</p>
+    <p><a href="https://en.wikipedia.org/wiki/Wikipedia" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Create Questions</h2>
+        <p>
+            Administrators Can create question of all types here for the exam.<br>
+            (have To be administrators to use this functions).
+        </p>
+        <p><a class="btn btn-default" href="/questions/create">Try &raquo;</a></p>
+    </div>
+    @if (User.IsInRole("Administrators"))
+    {
+        <div class="col-md-4">
+            <h2>See Submissions</h2>
+            <p>
+                See all summission made by students with the asnwers and result.
+                (Have to administrators to use this fuction)(but will be disabled for others just to show that first link can also be disabled).
+            </p>
+            <p><a class="btn btn-default" href="/submittions">Try &raquo;</a></p>
+        </div>
+
+    }
+    <div class="col-md-4">
+        <h2>Attemp Submission</h2>
+        <p>This link is for students to attempt to solve the question and sumbit answers</p>
+        <p><a class="btn btn-default" href="/submittions/create">Try &raquo;</a></p>
+    </div>
+</div>

@@ -1,0 +1,232 @@
+﻿@model SubmissionVeiwModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Submittion</h4>
+        <hr />
+        @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control", @style = "display:none" } })
+        @foreach (var item in Model.Questions)
+        {
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @Html.Label("Question: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @item.QuestionString
+                        </div>
+                    </div>
+
+
+                    <div id="options">
+                        @if (item.Type == "MCQM")
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control", @id = "Answer" + item.ID.ToString() } })
+                                    @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div id="multipleoptions">
+
+                                <div class="form-group">
+
+                                    <div class="control-label col-md-2">
+                                        @Html.CheckBox("OpA", new { @qid = item.ID.ToString(), @option = 'A', @onchange = "multipleupdate(this,this.getAttribute('qid'),this.getAttribute('option'))" })
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        @item.OptionA
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.CheckBox("OpB", new { @qid = item.ID.ToString(), @option = 'B', @onchange = "multipleupdate(this,this.getAttribute('qid'),this.getAttribute('option'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionB
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.CheckBox("OpC", new { @qid = item.ID.ToString(), @option = 'C', @onchange = "multipleupdate(this,this.getAttribute('qid'),this.getAttribute('option'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionC
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.CheckBox("OpD", new { @qid = item.ID.ToString(), @option = 'D', @onchange = "multipleupdate(this,this.getAttribute('qid'),this.getAttribute('option'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionD
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (item.Type == "MCQS")
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control", @id = "Answer" + item.ID.ToString() } })
+                                    @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div id="singleoption">
+
+                                <div class="form-group">
+
+                                    <div class="control-label col-md-2">
+                                        @Html.RadioButton("radio", "A", new { @qid = item.ID.ToString(), @onchange = "singleupdate(this.value,this.getAttribute('qid'))" })
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        @item.OptionA
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.RadioButton("radio", "B", new { @qid = item.ID.ToString(), @onchange = "singleupdate(this.value,this.getAttribute('qid'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionB
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.RadioButton("radio", "C", new { @qid = item.ID.ToString(), @onchange = "singleupdate(this.value,this.getAttribute('qid'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionC
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-md-2">
+                                        @Html.RadioButton("radio", "D", new { @qid = item.ID.ToString(), @onchange = "singleupdate(this.value,this.getAttribute('qid'))" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.OptionD
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control", @qid = item.ID.ToString(), @id = "Answer" + item.ID.ToString(), @onchange = "updatefitba(this.value,this.getAttribute('qid'))" } })
+                                    @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+        <div class="form-group">
+            <div class=" col-md-5">
+                <input type="button" value="Cancel" onclick="cancel()" class="btn btn-default" />
+            </div>
+
+            <div class="col-md-5">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    window.FinalAnswer = {};
+    function singleupdate(value, questionid) {
+
+        document.getElementById('Answer' + questionid).value = value;
+        if (questionid in window.FinalAnswer) {
+            window.FinalAnswer["" + questionid] = value;
+        }
+        else {
+            window.FinalAnswer["" + questionid] = value;
+        }
+        document.getElementById('Answer' + questionid).readOnly = true;
+        console.log(JSON.stringify(window.FinalAnswer))
+        document.getElementById('Answer').value = JSON.stringify(window.FinalAnswer);
+    }
+    function multipleupdate(ele, qid, option) {
+        var answer = ''
+        answer = answer + document.getElementById('Answer' + qid).value
+
+        if (ele.checked) {
+            answer = answer + option
+        }
+        else {
+
+            answer = answer.replace(option, '')
+        }
+        answer = answer.split('').sort().join('')
+        document.getElementById('Answer' + qid).value = answer;
+        document.getElementById('Answer' + qid).readOnly = true;
+        window.FinalAnswer["" + qid] = answer;
+        document.getElementById('Answer').value = JSON.stringify(window.FinalAnswer);
+    }
+    function updatefitba(a, b) {
+        window.FinalAnswer[b] = a
+        document.getElementById('Answer').value = JSON.stringify(window.FinalAnswer);
+    }
+    function cancel()
+    {
+        console.log("hi")
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover entered answers!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your answers has been cleared!", {
+                        icon: "success",
+                    }).then(
+                        window.location = "/submittions/create"
+                    )
+                    
+                } else {
+                    swal("Your answers are safe!");
+                }
+            });
+    }
+</script>
