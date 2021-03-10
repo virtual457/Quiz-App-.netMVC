@@ -1,0 +1,213 @@
+﻿@model QuizApp.Models.Question
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Question</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.QuestionString, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.QuestionString, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.QuestionString, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type, htmlAttributes: new
+        {
+            @class = "control-label col-md-2"
+        })
+        <div class="col-md-3">
+            @Html.DropDownListFor(x => Model.Type, new List<SelectListItem> { new SelectListItem() { Text = "--Select Type--", Value = "" },
+                           new SelectListItem() { Text = "MCQ-Single", Value = "MCQS" },
+                                                                                                new SelectListItem() { Text = "MCQ-Multiple", Value = "MCQM" },
+                                                                                                new SelectListItem() { Text = "Fill In The Blanks", Value = "FITB" } },
+                       htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                id = "Type",
+                           @onchange = "change(this.value);"
+                       })
+            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div id="options">
+    <div id="multipleoptions">
+
+        <div class="form-group">
+
+            <div class="control-label col-md-2">
+                @Html.CheckBox("OpA", new { @onchange = "multipleupdate()" })
+            </div>
+            <div class="col-md-4">
+
+                @Html.EditorFor(model => model.OptionA, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionA, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.CheckBox("OpB",new { @onchange = "multipleupdate()" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.CheckBox("OpC", new { @onchange = "multipleupdate()" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.CheckBox("OpD", new { @onchange = "multipleupdate()" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div id="singleoption">
+
+        <div class="form-group">
+
+            <div class="control-label col-md-2">
+                @Html.RadioButton("radio","A",new { @onchange = "singleupdate(this.value)" } )
+            </div>
+            <div class="col-md-4">
+
+                @Html.EditorFor(model => model.OptionA, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionA, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.RadioButton("radio", "B", new { @onchange = "singleupdate(this.value)" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.RadioButton("radio", "C", new { @onchange = "singleupdate(this.value)" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                @Html.RadioButton("radio", "D", new { @onchange = "singleupdate(this.value)" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.OptionD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.AddedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AddedBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AddedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var mopel = $('#multipleoptions').detach();
+    var sopel = $('#singleoption').detach();
+    $("#open_menu").click(function () {
+        $(this).append(el);
+    });
+    function change(value) {
+        if (value == "MCQS") {
+            $("#options").empty()
+            $("#options").append(sopel);
+            //var nodes = document.getElementById("multipleoptions").getElementsByTagName('*');
+            //for (var i = 0; i < nodes.length; i++) {
+            //    nodes[i].disabled = true;
+            //}
+        }
+        else if (value == "MCQM") {
+            $("#options").empty()
+            $("#options").append(mopel);
+        }
+        else {
+            $("#options").empty();
+            document.getElementById('Answer').readOnly = false;
+        }
+    }
+    function singleupdate(value) {
+
+        document.getElementById('Answer').value = value;
+        document.getElementById('Answer').readOnly = true;
+    }
+    function multipleupdate() {
+        var answer = ''
+        if (document.getElementById("OpA").checked) {
+            answer = answer + 'A';
+        }
+        if (document.getElementById("OpB").checked) {
+            answer = answer + 'B';
+        } if (document.getElementById("OpC").checked) {
+            answer = answer + 'C';
+        } if (document.getElementById("OpD").checked) {
+            answer = answer + 'D';
+        }
+        document.getElementById('Answer').value = answer;
+        document.getElementById('Answer').readOnly = true;
+    }
+</script>
